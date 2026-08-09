@@ -1,5 +1,6 @@
 "use client";
 import { PreferencesBar } from "@/components/PreferencesBar";
+import { StudyPlans } from "@/components/StudyPlans";
 import { useTranslations } from "next-intl";
 
 export default function Home() {
@@ -23,6 +24,7 @@ export default function Home() {
 
         <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
           <div className="space-y-8">
+            <StudyPlans />
             <section>
               <h2 className="mb-4 text-lg font-semibold">{t("scheduleTitle")}</h2>
 
