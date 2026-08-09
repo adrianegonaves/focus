@@ -1,13 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Moon, Sun } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 
 export function PreferencesBar() {
   const t = useTranslations("dashboard");
   const router = useRouter();
   const pathname = usePathname() ?? "";
+  const { theme, setTheme } = useTheme()
 
   const currentLocale = pathname.startsWith("/en")
     ? "en"
@@ -45,6 +48,15 @@ export function PreferencesBar() {
           </Button>
         ))}
       </div>
+      <Button
+        size="icon"
+        variant="secondary"
+        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        aria-label={theme === "dark" ? t("lightTheme") : t("darkTheme")}
+        title={theme === "dark" ? t("lightTheme") : t("darkTheme")}
+      >
+        {theme === "dark" ? <Sun /> : <Moon />}
+      </Button>
     </div>
   );
 }
