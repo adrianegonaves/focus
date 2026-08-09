@@ -7,7 +7,7 @@ export default function Home() {
   const t = useTranslations("dashboard");
 
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    <div className="flex flex-1 flex-col items-center justify-center bg-background font-sans text-foreground">
       <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:py-16">
         <header className="mb-10">
           <div className="flex flex-wrap items-start justify-between gap-4">
