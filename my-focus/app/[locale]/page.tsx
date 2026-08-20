@@ -3,9 +3,10 @@ import { PreferencesBar } from "@/components/PreferencesBar";
 import { StudyPlans } from "@/components/StudyPlans";
 import { TaskForm } from "@/components/TaskForm";
 import { TaskList } from "@/components/TaskList";
-import { loadTasks, StudyTask } from "@/lib/study-storege";
+import { Card } from "@/components/ui/card";
+import { formatMinutes, loadTasks, StudyTask } from "@/lib/study-storege";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
 
@@ -17,6 +18,13 @@ export default function Home() {
     setTasks(loadTasks());
 
   }, []);
+
+  const totals = useMemo(() => {
+    const planned = tasks.reduce((s, t) => s + t.minutesPlanned, 0);
+    const done = tasks.reduce((s, t) => s + t.minutesDone, 0);
+    return { planned, done, completed: tasks.filter((t) => t.done).length };
+  }, [tasks]);
+
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center bg-background font-sans text-foreground">
@@ -32,6 +40,20 @@ export default function Home() {
           <h1 className="mt-2 text-4xl font-bold sm:text-5xl">{t("heroTitle")}</h1>
           <p className="mt-3 max-w-2xl text-muted-foreground">{t("heroSubtitle")}</p>
         </header>
+
+
+        <div className="mb-10 grid gap-4 sm:grid-cols-3">
+          {[
+            { label: t("statPlanned"), value: formatMinutes(totals.planned) },
+            { label: t("statDone"), value: formatMinutes(totals.done) },
+            { label: t("statSessions"), value: `${totals.completed}/${tasks.length}` },
+          ].map((s) => (
+            <Card key={s.label} className="p-5">
+              <p className="text-xs uppercase tracking-widest text-muted-foreground">{s.label}</p>
+              <p className="mt-2 text-2xl font-semibold text-primary">{s.value}</p>
+            </Card>
+          ))}
+        </div>
 
         <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
           <div className="space-y-8">
